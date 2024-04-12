@@ -1,15 +1,12 @@
-import 'package:e_commerse/app/modules/otp/views/otp_view.dart';
 import 'package:e_commerse/app/modules/signin/views/signin_view.dart';
 import 'package:e_commerse/app/modules/widgets/button.dart';
 import 'package:e_commerse/app/modules/widgets/edit_text.dart';
 import 'package:e_commerse/app/modules/widgets/heading_text.dart';
-import 'package:e_commerse/app/modules/widgets/mobile_number_input.dart';
-import 'package:e_commerse/app/modules/widgets/password_edit_text.dart';
+
 import 'package:e_commerse/app/modules/widgets/text_view.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
 import '../controllers/register_controller.dart';
 
@@ -54,7 +51,8 @@ class RegisterView extends GetView<RegisterController> {
                       ),
                       child: Column(
                         children: [
-                          HeadingText(text: 'Register Now', marginTop: 45),
+                          const HeadingText(
+                              text: 'Register Now', marginTop: 45),
                           EditText(
                             text: 'Enter Full Name',
                             textInputType: TextInputType.emailAddress,
@@ -80,9 +78,9 @@ class RegisterView extends GetView<RegisterController> {
                           const SizedBox(height: 15),
                           GestureDetector(
                             onTap: () {
-                              Get.off(SigninView());
+                              Get.off(const SigninView());
                             },
-                            child: Row(
+                            child: const Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 TextView(

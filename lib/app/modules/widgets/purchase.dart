@@ -1,6 +1,5 @@
 import 'package:e_commerse/app/modules/data/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class Purchase extends StatelessWidget {
   const Purchase({super.key});
@@ -11,7 +10,7 @@ class Purchase extends StatelessWidget {
       width: MediaQuery.of(context).size.width * 0.8,
       height: MediaQuery.of(context).size.height / 2,
       decoration: BoxDecoration(
-        color: Color.fromARGB(255, 222, 238, 222),
+        color: const Color.fromARGB(255, 222, 238, 222),
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
           color: AppColor.blue,
@@ -26,7 +25,7 @@ class Purchase extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: AppColor.blue,
                   borderRadius: BorderRadius.circular(10),
@@ -45,7 +44,7 @@ class Purchase extends StatelessWidget {
                           fit: BoxFit.contain,
                         ),
                       ),
-                      Text(
+                      const Text(
                         'Taj Mahal',
                         style: TextStyle(
                           color: AppColor.green,
@@ -60,11 +59,11 @@ class Purchase extends StatelessWidget {
             ),
             Container(
               width: MediaQuery.of(context).size.width * 0.5,
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Column(
+              child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(

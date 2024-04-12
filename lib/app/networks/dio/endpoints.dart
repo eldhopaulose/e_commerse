@@ -4,6 +4,9 @@ enum Endpoints {
   register,
   registerVerify,
   RegisterResend,
+  signIn,
+  signInVerify,
+  signInResend,
 }
 
 extension EndpontData on Endpoints {
@@ -16,6 +19,12 @@ extension EndpontData on Endpoints {
         path = "user/register/verify";
       case Endpoints.RegisterResend:
         path = "user/register/resend";
+      case Endpoints.signIn:
+        path = "user/signin";
+      case Endpoints.signInVerify:
+        path = "user/signin/verify";
+      case Endpoints.signInResend:
+        path = "user/signin/resend";
     }
     return path;
   }
@@ -29,6 +38,12 @@ extension EndpontData on Endpoints {
         type = ReqType.POST;
       case Endpoints.RegisterResend:
         type = ReqType.POST;
+      case Endpoints.signIn:
+        type = ReqType.POST;
+      case Endpoints.signInVerify:
+        type = ReqType.POST;
+      case Endpoints.signInResend:
+        type = ReqType.POST;
     }
     return type;
   }
@@ -41,6 +56,12 @@ extension EndpontData on Endpoints {
       case Endpoints.registerVerify:
         hasToken = false;
       case Endpoints.RegisterResend:
+        hasToken = false;
+      case Endpoints.signIn:
+        hasToken = false;
+      case Endpoints.signInVerify:
+        hasToken = false;
+      case Endpoints.signInResend:
         hasToken = false;
     }
     return hasToken;

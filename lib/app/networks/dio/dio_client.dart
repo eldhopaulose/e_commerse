@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:e_commerse/app/modules/data/url.dart';
 import 'package:e_commerse/app/networks/dio/endpoints.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DioClient {
   final Dio _dio;
@@ -27,11 +28,12 @@ class DioClient {
     if (headers != null) {
       _dio.options.headers.addAll(headers);
     }
-    // if (endPoints.hasToken()) {
-    //   String? _token = G.Get.find<UserRes>().token;
-    //   _dio.options.headers
-    //       .addAll({"Authorization": "Bearer ${_token ?? "No Token"}"});
-    // }
+    if (endPoints.hasToken()) {
+      final SharedPreferences sp = await SharedPreferences.getInstance();
+      final _token = sp.getString("token");
+      _dio.options.headers
+          .addAll({"Authorization": "Bearer ${_token ?? "No Token"}"});
+    }
     try {
       switch (endPoints.type()) {
         case ReqType.GET:

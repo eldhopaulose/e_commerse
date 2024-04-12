@@ -1,9 +1,7 @@
-import 'package:e_commerse/app/modules/otp_signin/views/otp_signin_view.dart';
 import 'package:e_commerse/app/modules/register/views/register_view.dart';
 import 'package:e_commerse/app/modules/widgets/button.dart';
 import 'package:e_commerse/app/modules/widgets/edit_text.dart';
 import 'package:e_commerse/app/modules/widgets/heading_text.dart';
-import 'package:e_commerse/app/modules/widgets/mobile_number_input.dart';
 import 'package:e_commerse/app/modules/widgets/text_view.dart';
 import 'package:flutter/material.dart';
 
@@ -52,7 +50,7 @@ class SigninView extends GetView<SigninController> {
                       ),
                       child: Column(
                         children: [
-                          HeadingText(text: 'Sign In', marginTop: 45),
+                          const HeadingText(text: 'Sign In', marginTop: 45),
                           // MobileNumberInput(
                           //   number: controller.number,
                           //   numberController: controller.numberController,
@@ -73,16 +71,16 @@ class SigninView extends GetView<SigninController> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              TextView(
+                              const TextView(
                                 text: 'Don\'t have an account ',
                                 fontSize: 13,
                                 color: Colors.black,
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  Get.to(RegisterView());
+                                  Get.to(const RegisterView());
                                 },
-                                child: TextView(
+                                child: const TextView(
                                   text: ' Register Now',
                                   fontSize: 13,
                                   color: Colors.blueAccent,

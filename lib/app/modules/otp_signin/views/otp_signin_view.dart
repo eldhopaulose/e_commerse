@@ -1,5 +1,3 @@
-import 'package:e_commerse/app/modules/bottom_nav/views/bottom_nav_view.dart';
-import 'package:e_commerse/app/modules/home/views/home_view.dart';
 import 'package:e_commerse/app/modules/widgets/button.dart';
 import 'package:e_commerse/app/modules/widgets/otp.dart';
 import 'package:e_commerse/app/modules/widgets/text_view.dart';
@@ -13,6 +11,7 @@ class OtpSigninView extends GetView<OtpSigninController> {
   const OtpSigninView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    Get.put(OtpSigninController());
     return Scaffold(
       appBar: AppBar(
         title: const Text('OtpSigninView'),
@@ -28,31 +27,35 @@ class OtpSigninView extends GetView<OtpSigninController> {
               height: 300,
             ),
             OtpWidget(otpGet: (String otp) {
-              print('OtpView otpGet' + otp);
-              print(otp);
+              controller.otp = otp;
             }),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TextView(
+                const TextView(
                   text: 'Resend OTP? ',
                   fontSize: 13,
                   color: Colors.black,
                 ),
-                TextView(
-                  text: 'Get OTP',
-                  fontSize: 13,
-                  color: Colors.blueAccent,
+                InkWell(
+                  onTap: () {
+                    controller.onClickResend(context);
+                  },
+                  child: const TextView(
+                    text: 'Get OTP',
+                    fontSize: 13,
+                    color: Colors.blueAccent,
+                  ),
                 ),
               ],
             ),
             Button(
               text: 'Register Now',
               onClick: () {
-                Get.offAll(BottomNavView());
+                controller.onClickOtp(context);
               },
             ),
           ],

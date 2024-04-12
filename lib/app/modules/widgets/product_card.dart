@@ -1,7 +1,6 @@
 import 'package:e_commerse/app/modules/data/colors.dart';
 import 'package:e_commerse/app/modules/widgets/offer_card.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ProductCard extends StatelessWidget {
   final String name;
@@ -57,7 +56,7 @@ class ProductCard extends StatelessWidget {
                 ),
               ),
             ),
-            Positioned(
+            const Positioned(
               top: 10,
               left: 10,
               child: OfferCard(),
@@ -83,7 +82,7 @@ class ProductCard extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     borderRadius: BorderRadius.vertical(
                       bottom: Radius.circular(20),
                     ),
@@ -91,8 +90,8 @@ class ProductCard extends StatelessWidget {
                   ),
                   height: 80,
                   width: double.infinity,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,

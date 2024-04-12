@@ -13,6 +13,7 @@ abstract class Routes {
   static const FAVORITE = _Paths.FAVORITE;
   static const PROFILE = _Paths.PROFILE;
   static const CART = _Paths.CART;
+  static const SPLASH = _Paths.SPLASH;
 }
 
 abstract class _Paths {
@@ -27,4 +28,5 @@ abstract class _Paths {
   static const FAVORITE = '/favorite';
   static const PROFILE = '/profile';
   static const CART = '/cart';
+  static const SPLASH = '/splash';
 }
