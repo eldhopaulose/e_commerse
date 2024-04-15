@@ -7,6 +7,11 @@ enum Endpoints {
   signIn,
   signInVerify,
   signInResend,
+  getUserData,
+  getProductsData,
+  addLike,
+  unLike,
+  getAllLiked,
 }
 
 extension EndpontData on Endpoints {
@@ -25,6 +30,16 @@ extension EndpontData on Endpoints {
         path = "user/signin/verify";
       case Endpoints.signInResend:
         path = "user/signin/resend";
+      case Endpoints.getUserData:
+        path = "user/details";
+      case Endpoints.getProductsData:
+        path = "product/product";
+      case Endpoints.addLike:
+        path = "like/like";
+      case Endpoints.unLike:
+        path = "like/unlike";
+      case Endpoints.getAllLiked:
+        path = "like/likes";
     }
     return path;
   }
@@ -44,6 +59,16 @@ extension EndpontData on Endpoints {
         type = ReqType.POST;
       case Endpoints.signInResend:
         type = ReqType.POST;
+      case Endpoints.getUserData:
+        type = ReqType.GET;
+      case Endpoints.getProductsData:
+        type = ReqType.GET;
+      case Endpoints.addLike:
+        type = ReqType.POST;
+      case Endpoints.unLike:
+        type = ReqType.POST;
+      case Endpoints.getAllLiked:
+        type = ReqType.GET;
     }
     return type;
   }
@@ -63,6 +88,16 @@ extension EndpontData on Endpoints {
         hasToken = false;
       case Endpoints.signInResend:
         hasToken = false;
+      case Endpoints.getUserData:
+        hasToken = true;
+      case Endpoints.getProductsData:
+        hasToken = false;
+      case Endpoints.addLike:
+        hasToken = true;
+      case Endpoints.unLike:
+        hasToken = true;
+      case Endpoints.getAllLiked:
+        hasToken = true;
     }
     return hasToken;
   }

@@ -7,6 +7,7 @@ import 'package:e_commerse/app/networks/models/req/register_verify_req.dart';
 import 'package:e_commerse/app/networks/models/req/signin_req.dart';
 import 'package:e_commerse/app/networks/models/req/signin_resend_req.dart';
 import 'package:e_commerse/app/networks/models/req/signin_verify_req.dart';
+import 'package:e_commerse/app/networks/models/res/get_user_data_res.dart';
 import 'package:e_commerse/app/networks/models/res/register_res.dart';
 import 'package:e_commerse/app/networks/models/res/register_resend_res.dart';
 import 'package:e_commerse/app/networks/models/res/register_verify_res.dart';
@@ -189,6 +190,37 @@ class AuthRepo {
       }
     } catch (e) {
       return throw Exception(SigninResendRes(error: e.toString()));
+    }
+  }
+
+  Future<GetUserDataRes?> getUserData() async {
+    try {
+      final getUserDataResponse = await dioClient.mainReqRes(
+        endPoints: Endpoints.getUserData,
+      );
+      if (getUserDataResponse != null) {
+        if (getUserDataResponse.statusCode == 200) {
+          final getUserData = GetUserDataRes.fromJson(getUserDataResponse.data);
+          return getUserData;
+        } else if (getUserDataResponse.statusCode == 400) {
+          final getUserDataError =
+              GetUserDataRes.fromJson(getUserDataResponse.data);
+          return getUserDataError;
+        } else if (getUserDataResponse.statusCode == 401) {
+          final getUserDataError =
+              GetUserDataRes.fromJson(getUserDataResponse.data);
+          return GetUserDataRes(error: getUserDataError.error);
+        } else {
+          final getUserDataError =
+              GetUserDataRes.fromJson(getUserDataResponse.data);
+          return GetUserDataRes(error: getUserDataError.toString());
+        }
+      } else {
+        // Handle null response
+        return GetUserDataRes(error: "Null response received");
+      }
+    } catch (e) {
+      return throw Exception(e.toString());
     }
   }
 }

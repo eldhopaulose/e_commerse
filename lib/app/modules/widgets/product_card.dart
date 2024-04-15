@@ -1,6 +1,9 @@
 import 'package:e_commerse/app/modules/data/colors.dart';
+import 'package:e_commerse/app/modules/home/controllers/home_controller.dart';
 import 'package:e_commerse/app/modules/widgets/offer_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 
 class ProductCard extends StatelessWidget {
   final String name;
@@ -25,6 +28,7 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final HomeController controller = Get.find<HomeController>();
     print(likedId);
 
     return Padding(
@@ -49,7 +53,7 @@ class ProductCard extends StatelessWidget {
                   height: MediaQuery.of(context).size.width > 600 ? 300 : 150,
                   width: MediaQuery.of(context).size.height > 600 ? 300 : 140,
                   child: Image.network(
-                    'https://i0.wp.com/picjumbo.com/wp-content/uploads/spring-flowers-lettering-in-floral-garden-free-photo.jpeg?w=2210&quality=70',
+                    image,
                     alignment: Alignment.center,
                     fit: BoxFit.contain,
                   ),
@@ -65,7 +69,9 @@ class ProductCard extends StatelessWidget {
               top: 10,
               right: 10,
               child: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  controller.onlikeProduct(productId, context);
+                },
                 icon: Icon(
                   likedId.contains(productId)
                       ? Icons.favorite
@@ -90,14 +96,14 @@ class ProductCard extends StatelessWidget {
                   ),
                   height: 80,
                   width: double.infinity,
-                  child: const Padding(
+                  child: Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Product Name',
+                          name,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: TextStyle(
@@ -109,7 +115,7 @@ class ProductCard extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              '₹300',
+                              disprice,
                               style: TextStyle(
                                 fontWeight: FontWeight.w800,
                                 fontSize: 16,
@@ -118,7 +124,7 @@ class ProductCard extends StatelessWidget {
                             ),
                             SizedBox(width: 3),
                             Text(
-                              '₹300',
+                              price,
                               style: TextStyle(
                                 decoration: TextDecoration.lineThrough,
                                 fontWeight: FontWeight.w100,

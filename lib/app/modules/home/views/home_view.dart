@@ -2,6 +2,7 @@ import 'package:e_commerse/app/modules/detail/views/detail_view.dart';
 import 'package:e_commerse/app/modules/widgets/categories.dart';
 import 'package:e_commerse/app/modules/widgets/product_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -29,15 +30,31 @@ class HomeView extends GetView<HomeController> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Hi Eldho Paulose,",
-                        style: GoogleFonts.oldStandardTt(
-                          fontSize: 25,
-                          color: Colors.green,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.left,
-                      ),
+                      FutureBuilder(
+                          future: controller.getUserData(context),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                  child: CircularProgressIndicator());
+                            } else if (snapshot.hasError) {
+                              print("error");
+                              print(snapshot.error);
+
+                              return Container();
+                            } else if (snapshot.hasData) {
+                              return Text(
+                                "Hi ${snapshot.data?.user?.name ?? ""},",
+                                style: GoogleFonts.oldStandardTt(
+                                  fontSize: 25,
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.left,
+                              );
+                            }
+                            return Container();
+                          }),
                       const SizedBox(
                         height: 2,
                       ),
@@ -262,42 +279,60 @@ class HomeView extends GetView<HomeController> {
                   )),
             ),
           ),
-          GridView.count(
-            scrollDirection: Axis.vertical,
-            crossAxisCount: 2,
-            crossAxisSpacing: 5.0,
-            mainAxisSpacing: 5.0,
-            shrinkWrap: true,
-            childAspectRatio:
-                MediaQuery.of(context).size.width < 600 ? 0.57 : 1,
-            physics: NeverScrollableScrollPhysics(),
-            children: List.generate(10, (index) {
-              // Your code here
-              return Stack(
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.width,
-                    width: MediaQuery.of(context).size.width,
-                    child: InkWell(
-                      onTap: () {
-                        Get.to(DetailView());
-                      },
-                      child: ProductCard(
-                        name: "rdr" ?? '',
-                        price: "888" ?? '',
-                        disprice: "6776" ?? '',
-                        image: "hghgg" ?? '',
-                        onPressed: () async {},
-                        productId: "hghgg" ?? '',
-                        likedId: [AboutDialog],
-                      ),
-                    ),
-                  ),
-                ],
-              );
-              // Replace Container() with your desired widget
-            }),
-          ),
+          StreamBuilder(
+            stream: controller.getAllProducts,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text(snapshot.error.toString()),
+                );
+              } else if (snapshot.hasData) {
+                return GridView.count(
+                  scrollDirection: Axis.vertical,
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 5.0,
+                  mainAxisSpacing: 5.0,
+                  shrinkWrap: true,
+                  childAspectRatio:
+                      MediaQuery.of(context).size.width < 600 ? 0.57 : 1,
+                  physics: NeverScrollableScrollPhysics(),
+                  children:
+                      List.generate(snapshot.data!.products!.length, (index) {
+                    final data = snapshot.data!.products![index];
+                    // Your code here
+                    return Stack(
+                      children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.width,
+                          width: MediaQuery.of(context).size.width,
+                          child: InkWell(
+                            onTap: () {
+                              Get.to(DetailView());
+                            },
+                            child: ProductCard(
+                              name: data.name.toString(),
+                              price: data.price.toString(),
+                              disprice: data.discount.toString(),
+                              image: data.thumbnail.toString(),
+                              onPressed: () async {},
+                              productId: data.sId ?? '',
+                              likedId: [],
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                    // Replace Container() with your desired widget
+                  }),
+                );
+              }
+              return Container();
+            },
+          )
         ],
       ),
     ));
