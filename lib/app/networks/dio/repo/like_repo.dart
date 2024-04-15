@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:e_commerse/app/networks/dio/dio_client.dart';
 import 'package:e_commerse/app/networks/dio/endpoints.dart';
 import 'package:e_commerse/app/networks/models/res/add_like_res.dart';
+import 'package:e_commerse/app/networks/models/res/get_all_liked_byid_res.dart';
 import 'package:e_commerse/app/networks/models/res/get_all_likes.dart';
 import 'package:e_commerse/app/networks/models/res/unlike_res.dart';
 
@@ -38,6 +39,7 @@ class LikeRepo {
     try {
       final response = await dioClient.mainReqRes(
         endPoints: Endpoints.unLike,
+        queryParameters: productId,
       );
 
       if (response.data != null) {
@@ -59,7 +61,7 @@ class LikeRepo {
     }
   }
 
-  Future<GetAllLikesRes?> getAllLikes() async {
+  Future<GetAllLikesByIdRes?> getAllLikes() async {
     try {
       final response = await dioClient.mainReqRes(
         endPoints: Endpoints.getAllLiked,
@@ -67,20 +69,24 @@ class LikeRepo {
 
       if (response.data != null) {
         if (response.statusCode == 200) {
-          final getAllLikesResponse = GetAllLikesRes.fromJson(response.data);
+          final getAllLikesResponse =
+              GetAllLikesByIdRes.fromJson(response.data);
           return getAllLikesResponse;
         } else if (response.statusCode == 400) {
-          final getAllLikesResponse = GetAllLikesRes.fromJson(response.data);
+          final getAllLikesResponse =
+              GetAllLikesByIdRes.fromJson(response.data);
           return getAllLikesResponse;
         } else {
-          final getAllLikedResponse = GetAllLikesRes.fromJson(response.data);
+          final getAllLikedResponse =
+              GetAllLikesByIdRes.fromJson(response.data);
           return getAllLikedResponse;
         }
       } else {
-        return throw Exception(GetAllLikesRes(error: "Something went wrong!"));
+        return throw Exception(
+            GetAllLikesByIdRes(error: "Something went wrong!"));
       }
     } catch (e) {
-      return throw Exception(GetAllLikesRes(error: e.toString()));
+      return throw Exception(GetAllLikesByIdRes(error: e.toString()));
     }
   }
 }

@@ -11,6 +11,7 @@ import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     Get.put(HomeController());
@@ -196,22 +197,23 @@ class HomeView extends GetView<HomeController> {
                         isSelected: controller.selectedCategory.value == 'All',
                         onPressed: (p0) {
                           controller.selectCategory(p0);
-
-                          controller.onReady();
-                          Future.delayed(Duration(seconds: 1), () {
-                            controller.onReady();
+                          controller.getProducts(p0, context).then((_) {
+                            // Call getAllLiked after getProducts completes successfully
+                            controller.getAllLiked();
                           });
                         },
                       ),
                       Categories(
-                        categoryName: 'Cotton Candy ',
-                        isSelected: controller.selectedCategory.value ==
-                            'Cotton Candy ',
+                        categoryName: 'Gluten-Free',
+                        isSelected:
+                            controller.selectedCategory.value == 'Gluten-Free',
                         onPressed: (p0) {
+                          print(p0);
                           controller.selectCategory(p0);
-                          controller.onReady();
-                          Future.delayed(Duration(seconds: 1), () {
-                            controller.onReady();
+
+                          controller.getProducts(p0, context).then((_) {
+                            // Call getAllLiked after getProducts completes successfully
+                            controller.getAllLiked();
                           });
                         },
                       ),
@@ -310,19 +312,37 @@ class HomeView extends GetView<HomeController> {
                           height: MediaQuery.of(context).size.width,
                           width: MediaQuery.of(context).size.width,
                           child: InkWell(
-                            onTap: () {
-                              Get.to(DetailView());
-                            },
-                            child: ProductCard(
-                              name: data.name.toString(),
-                              price: data.price.toString(),
-                              disprice: data.discount.toString(),
-                              image: data.thumbnail.toString(),
-                              onPressed: () async {},
-                              productId: data.sId ?? '',
-                              likedId: [],
-                            ),
-                          ),
+                              onTap: () {
+                                Get.to(DetailView());
+                              },
+                              child: StreamBuilder(
+                                stream: controller.fetchCustomerProductLikede,
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  } else if (snapshot.hasError) {
+                                    return Center(
+                                      child: Text(snapshot.error.toString()),
+                                    );
+                                  } else if (snapshot.hasData) {
+                                    final likedId = snapshot.data!.likes;
+                                    return ProductCard(
+                                      name: data.name.toString(),
+                                      price: data.price.toString(),
+                                      disprice: data.discount.toString(),
+                                      image: data.thumbnail.toString(),
+                                      onPressed: () async {},
+                                      productId: data.sId ?? '',
+                                      likedId: likedId as List,
+                                    );
+                                  } else {
+                                    return Container();
+                                  }
+                                },
+                              )),
                         ),
                       ],
                     );

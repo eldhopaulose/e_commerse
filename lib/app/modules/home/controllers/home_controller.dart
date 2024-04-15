@@ -4,6 +4,7 @@ import 'package:achievement_view/achievement_view.dart';
 import 'package:e_commerse/app/networks/dio/repo/auth_repo.dart';
 import 'package:e_commerse/app/networks/dio/repo/like_repo.dart';
 import 'package:e_commerse/app/networks/dio/repo/product_repo.dart';
+import 'package:e_commerse/app/networks/models/res/get_all_liked_byid_res.dart';
 import 'package:e_commerse/app/networks/models/res/get_all_likes.dart';
 import 'package:e_commerse/app/networks/models/res/get_product_res.dart';
 import 'package:e_commerse/app/networks/models/res/get_user_data_res.dart';
@@ -23,17 +24,19 @@ class HomeController extends GetxController {
 
   Stream<GetProductRes?> get getAllProducts => _getProducts.stream;
 
-  final StreamController<GetAllLikesRes?> _fetchAllLiked =
-      StreamController<GetAllLikesRes?>.broadcast();
+  final StreamController<GetAllLikesByIdRes?> _fetchAllLiked =
+      StreamController<GetAllLikesByIdRes?>.broadcast();
 
-  Stream<GetAllLikesRes?> get fetchCustomerProductLikede =>
+  Stream<GetAllLikesByIdRes?> get fetchCustomerProductLikede =>
       _fetchAllLiked.stream;
 
   @override
   void onInit() {
+    getProducts("All", Get.context!).then((_) {
+      // Call getAllLiked after getProducts completes successfully
+      getAllLiked();
+    });
     super.onInit();
-    getProducts("All", Get.context!);
-    getAllLiked();
   }
 
   @override
@@ -91,6 +94,7 @@ class HomeController extends GetxController {
   onlikeProduct(String productId, context) async {
     final LikeRepo repo = LikeRepo();
     final response = await repo.like(productId);
+    getAllLiked();
     if (response?.error != null) {
       error(context, response!.error, Colors.red, "Error", Icons.error,
           Colors.red);
@@ -100,7 +104,8 @@ class HomeController extends GetxController {
   onunlikeProduct(String productId, context) async {
     final LikeRepo repo = LikeRepo();
     final response = await repo.unlike(productId);
-    if (response?.error == null) {
+    getAllLiked();
+    if (response?.error != null) {
       error(context, response!.error, Colors.red, "Error", Icons.error,
           Colors.red);
     }
