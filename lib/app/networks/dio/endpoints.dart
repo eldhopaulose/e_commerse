@@ -12,6 +12,7 @@ enum Endpoints {
   addLike,
   unLike,
   getAllLiked,
+  getAllLikes
 }
 
 extension EndpontData on Endpoints {
@@ -40,6 +41,8 @@ extension EndpontData on Endpoints {
         path = "like/unlike";
       case Endpoints.getAllLiked:
         path = "like/likes";
+      case Endpoints.getAllLikes:
+        path = "like/likes-full-details";
     }
     return path;
   }
@@ -69,6 +72,8 @@ extension EndpontData on Endpoints {
         type = ReqType.POST;
       case Endpoints.getAllLiked:
         type = ReqType.GET;
+      case Endpoints.getAllLikes:
+        type = ReqType.GET;
     }
     return type;
   }
@@ -97,6 +102,8 @@ extension EndpontData on Endpoints {
       case Endpoints.unLike:
         hasToken = true;
       case Endpoints.getAllLiked:
+        hasToken = true;
+      case Endpoints.getAllLikes:
         hasToken = true;
     }
     return hasToken;

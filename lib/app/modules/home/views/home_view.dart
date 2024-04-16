@@ -14,7 +14,7 @@ class HomeView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(HomeController());
+    Get.put(HomeController(), permanent: true);
     return Scaffold(
         body: SingleChildScrollView(
       child: Column(
@@ -313,7 +313,7 @@ class HomeView extends GetView<HomeController> {
                           width: MediaQuery.of(context).size.width,
                           child: InkWell(
                               onTap: () {
-                                Get.to(DetailView());
+                                Get.to(DetailView(), arguments: data.sId);
                               },
                               child: StreamBuilder(
                                 stream: controller.fetchCustomerProductLikede,

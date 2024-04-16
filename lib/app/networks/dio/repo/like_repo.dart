@@ -89,4 +89,28 @@ class LikeRepo {
       return throw Exception(GetAllLikesByIdRes(error: e.toString()));
     }
   }
+
+  Future<GetAllLikesRes?> getAllLikesData() async {
+    try {
+      final response = await dioClient.mainReqRes(
+        endPoints: Endpoints.getAllLikes,
+      );
+      if (response.data != null) {
+        if (response.statusCode == 200) {
+          final getAllLikesResponse = GetAllLikesRes.fromJson(response.data);
+          return getAllLikesResponse;
+        } else if (response.statusCode == 400) {
+          final getAllLikesResponse = GetAllLikesRes.fromJson(response.data);
+          return getAllLikesResponse;
+        } else {
+          final getAllLikesResponse = GetAllLikesRes.fromJson(response.data);
+          return getAllLikesResponse;
+        }
+      } else {
+        return throw Exception(GetAllLikesRes(error: "Something went wrong!"));
+      }
+    } catch (e) {
+      return throw Exception(GetAllLikesRes(error: e.toString()));
+    }
+  }
 }

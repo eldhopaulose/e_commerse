@@ -11,6 +11,7 @@ class FavoriteView extends GetView<FavoriteController> {
   const FavoriteView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    Get.put(FavoriteController(), permanent: true);
     return Scaffold(
       //backgroundColor: Colors.black,
       appBar: AppBar(
@@ -26,54 +27,78 @@ class FavoriteView extends GetView<FavoriteController> {
         ),
       ),
       body: SingleChildScrollView(
-          child: InkWell(
-              onTap: () {
-                Get.to(DetailView());
-              },
-              child: Padding(
-                padding:
-                    EdgeInsets.only(top: 10, bottom: 90, left: 10, right: 10),
-                child: GridView.count(
-                  scrollDirection: Axis.vertical,
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 5.0,
-                  mainAxisSpacing: 5.0,
-                  shrinkWrap: true,
-                  childAspectRatio:
-                      MediaQuery.of(context).size.width < 600 ? 0.57 : 1,
-                  physics: NeverScrollableScrollPhysics(),
-                  children: List.generate(10, (index) {
-                    // Your code here
-                    return Stack(
-                      children: [
-                        SizedBox(
-                          height: MediaQuery.of(context).size.width,
-                          width: MediaQuery.of(context).size.width,
-                          child: InkWell(
-                              onTap: () {
-                                Get.to(
-                                  () => DetailView(),
+          child: StreamBuilder(
+        stream: controller.fetchCustomerProductLikede,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text(snapshot.error.toString()),
+            );
+          } else if (snapshot.hasData) {
+            return GridView.count(
+              scrollDirection: Axis.vertical,
+              crossAxisCount: 2,
+              crossAxisSpacing: 5.0,
+              mainAxisSpacing: 5.0,
+              shrinkWrap: true,
+              childAspectRatio:
+                  MediaQuery.of(context).size.width < 600 ? 0.57 : 1,
+              physics: NeverScrollableScrollPhysics(),
+              children: List.generate(snapshot.data!.likes!.length, (index) {
+                final data = snapshot.data!.likes![index];
+                // Your code here
+                return Stack(
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.width,
+                      width: MediaQuery.of(context).size.width,
+                      child: InkWell(
+                          onTap: () {
+                            Get.to(DetailView(),
+                                arguments: data.productId!.sId);
+                          },
+                          child: StreamBuilder(
+                            stream: controller.fetchCustomerProductLikedeById,
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Center(
+                                  child: CircularProgressIndicator(),
                                 );
-                              },
-                              child: ProductCard(
-                                name: "jjjggjgj?? ''",
-                                price: "3343 ",
-                                disprice: "2323",
-                                image:
-                                    "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png",
-                                onPressed: () async {
-                                  print('aaaaaaaaa');
-                                },
-                                productId: "12123123",
-                                likedId: ["123123", "123123", "123123"],
-                              )),
-                        ),
-                      ],
-                    );
-                    // Replace Container() with your desired widget
-                  }),
-                ),
-              ))),
+                              } else if (snapshot.hasError) {
+                                return Center(
+                                  child: Text(snapshot.error.toString()),
+                                );
+                              } else if (snapshot.hasData) {
+                                final likedId = snapshot.data!.likes;
+                                return ProductCard(
+                                  name: data.productId!.name.toString(),
+                                  price: data.productId!.price.toString(),
+                                  disprice: data.productId!.discount.toString(),
+                                  image: data.productId!.thumbnail.toString(),
+                                  onPressed: () async {},
+                                  productId: data.productId!.sId ?? '',
+                                  likedId: likedId as List,
+                                );
+                              } else {
+                                return Container();
+                              }
+                            },
+                          )),
+                    ),
+                  ],
+                );
+                // Replace Container() with your desired widget
+              }),
+            );
+          }
+          return Container();
+        },
+      )),
     );
   }
 }

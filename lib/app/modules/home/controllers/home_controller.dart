@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:achievement_view/achievement_view.dart';
+import 'package:e_commerse/app/modules/favorite/controllers/favorite_controller.dart';
 import 'package:e_commerse/app/networks/dio/repo/auth_repo.dart';
 import 'package:e_commerse/app/networks/dio/repo/like_repo.dart';
 import 'package:e_commerse/app/networks/dio/repo/product_repo.dart';
@@ -13,6 +14,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
+  final FavoriteController favoriteController = Get.put(FavoriteController());
   final selectedCategory = ''.obs;
 
   get isCircle => circle;
@@ -94,7 +96,13 @@ class HomeController extends GetxController {
   onlikeProduct(String productId, context) async {
     final LikeRepo repo = LikeRepo();
     final response = await repo.like(productId);
-    getAllLiked();
+    getProducts("All", Get.context!).then((_) {
+      // Call getAllLiked after getProducts completes successfully
+      getAllLiked();
+    });
+    favoriteController.getAllLiked().then((_) {
+      favoriteController.getAllLikedbyId();
+    });
     if (response?.error != null) {
       error(context, response!.error, Colors.red, "Error", Icons.error,
           Colors.red);
@@ -104,7 +112,13 @@ class HomeController extends GetxController {
   onunlikeProduct(String productId, context) async {
     final LikeRepo repo = LikeRepo();
     final response = await repo.unlike(productId);
-    getAllLiked();
+    getProducts("All", Get.context!).then((_) {
+      // Call getAllLiked after getProducts completes successfully
+      getAllLiked();
+    });
+    favoriteController.getAllLiked().then((_) {
+      favoriteController.getAllLikedbyId();
+    });
     if (response?.error != null) {
       error(context, response!.error, Colors.red, "Error", Icons.error,
           Colors.red);
