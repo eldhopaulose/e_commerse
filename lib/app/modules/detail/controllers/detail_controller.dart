@@ -1,9 +1,10 @@
+import 'package:e_commerse/app/networks/dio/repo/product_repo.dart';
+import 'package:e_commerse/app/networks/models/res/get_single_product_by_id.dart';
 import 'package:get/get.dart';
 
 class DetailController extends GetxController {
   //TODO: Implement DetailController
 
-  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
@@ -19,5 +20,9 @@ class DetailController extends GetxController {
     super.onClose();
   }
 
-  void increment() => count.value++;
+  Future<GetSingleProductByIdRes?> getSingleProductById(String id) async {
+    final ProductRepo repo = ProductRepo();
+    final response = await repo.getSingleProduct(id);
+    return response;
+  }
 }
