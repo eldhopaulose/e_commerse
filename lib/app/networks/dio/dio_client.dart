@@ -53,6 +53,21 @@ class DioClient {
             data: data,
           );
           break;
+        case ReqType.PUT:
+          response = await _dio.put(
+            queryParameters != null
+                ? "$BASE_URl/${endPoints.path()}/$queryParameters"
+                : "$BASE_URl/${endPoints.path()}",
+            data: data,
+          );
+          break;
+        case ReqType.DELETE:
+          response = await _dio.delete(
+            queryParameters != null
+                ? "$BASE_URl/${endPoints.path()}/$queryParameters"
+                : "$BASE_URl/${endPoints.path()}",
+            data: data,
+          );
         default:
           response = await _dio.post(
             "$BASE_URl/${endPoints.path()}",
@@ -85,8 +100,4 @@ class DioClient {
   }
 }
 
-enum ReqType {
-  GET,
-  POST,
-  PUT,
-}
+enum ReqType { GET, POST, PUT, DELETE }

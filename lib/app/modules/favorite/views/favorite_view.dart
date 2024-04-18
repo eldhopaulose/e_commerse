@@ -12,6 +12,7 @@ class FavoriteView extends GetView<FavoriteController> {
   @override
   Widget build(BuildContext context) {
     Get.put(FavoriteController(), permanent: true);
+    controller.onReady();
     return Scaffold(
       //backgroundColor: Colors.black,
       appBar: AppBar(
@@ -39,6 +40,14 @@ class FavoriteView extends GetView<FavoriteController> {
               child: Text(snapshot.error.toString()),
             );
           } else if (snapshot.hasData) {
+            print(snapshot.data!.likes!.length);
+            if (snapshot.data!.likes!.isEmpty) {
+              return SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height - 80,
+                child: Center(child: Text('No data found')),
+              );
+            }
             return GridView.count(
               scrollDirection: Axis.vertical,
               crossAxisCount: 2,

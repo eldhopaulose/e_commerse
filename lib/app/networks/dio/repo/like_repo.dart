@@ -28,10 +28,10 @@ class LikeRepo {
           return addLikeResponse;
         }
       } else {
-        return throw Exception(AddLikeRes(error: "Something went wrong!"));
+        return AddLikeRes(error: "Something went wrong!");
       }
     } catch (e) {
-      return throw Exception(AddLikeRes(error: e.toString()));
+      return AddLikeRes(error: e.toString());
     }
   }
 
@@ -54,10 +54,10 @@ class LikeRepo {
           return unlikeResponse;
         }
       } else {
-        return throw Exception(UnlikeRes(error: "Something went wrong!"));
+        return UnlikeRes(error: "Something went wrong!");
       }
     } catch (e) {
-      return throw Exception(UnlikeRes(error: e.toString()));
+      return UnlikeRes(error: e.toString());
     }
   }
 
@@ -82,11 +82,10 @@ class LikeRepo {
           return getAllLikedResponse;
         }
       } else {
-        return throw Exception(
-            GetAllLikesByIdRes(error: "Something went wrong!"));
+        return GetAllLikesByIdRes(error: "Something went wrong!");
       }
     } catch (e) {
-      return throw Exception(GetAllLikesByIdRes(error: e.toString()));
+      return GetAllLikesByIdRes(error: e.toString());
     }
   }
 
@@ -107,10 +106,10 @@ class LikeRepo {
           return getAllLikesResponse;
         }
       } else {
-        return throw Exception(GetAllLikesRes(error: "Something went wrong!"));
+        return GetAllLikesRes(error: "Something went wrong!");
       }
     } catch (e) {
-      return throw Exception(GetAllLikesRes(error: e.toString()));
+      return GetAllLikesRes(error: e.toString());
     }
   }
 }

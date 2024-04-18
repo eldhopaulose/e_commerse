@@ -41,7 +41,7 @@ class AuthRepo {
         }
       }
     } catch (e) {
-      return throw Exception(RegisterRes(error: e.toString()));
+      return RegisterRes(error: e.toString());
     }
   }
 
@@ -72,7 +72,7 @@ class AuthRepo {
         }
       }
     } catch (e) {
-      return throw Exception(RegisterVerifyRes(error: e.toString()));
+      return RegisterVerifyRes(error: e.toString());
     }
   }
 
@@ -103,7 +103,7 @@ class AuthRepo {
         }
       }
     } catch (e) {
-      return throw Exception(RegisterResendRes(error: e.toString()));
+      return RegisterResendRes(error: e.toString());
     }
   }
 
@@ -131,7 +131,7 @@ class AuthRepo {
         }
       }
     } catch (e) {
-      return throw Exception(SigninRes(error: e.toString()));
+      return SigninRes(error: e.toString());
     }
   }
 
@@ -160,7 +160,7 @@ class AuthRepo {
         }
       }
     } catch (e) {
-      return throw Exception(SigninVerifyRes(error: e.toString()));
+      return SigninVerifyRes(error: e.toString());
     }
   }
 
@@ -189,7 +189,7 @@ class AuthRepo {
         }
       }
     } catch (e) {
-      return throw Exception(SigninResendRes(error: e.toString()));
+      return SigninResendRes(error: e.toString());
     }
   }
 
@@ -220,7 +220,7 @@ class AuthRepo {
         return GetUserDataRes(error: "Null response received");
       }
     } catch (e) {
-      return throw Exception(e.toString());
+      return GetUserDataRes(error: e.toString());
     }
   }
 }

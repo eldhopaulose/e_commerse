@@ -162,7 +162,9 @@ class DetailView extends GetView<DetailController> {
                             btnButtonWidth: double.infinity,
                             btnText: 'Add to Cart',
                             btnHeight: 50,
-                            btnOnPressed: () {},
+                            btnOnPressed: () {
+                              controller.onCLickCart(Get.arguments, context);
+                            },
                           ),
                         ),
                         SizedBox(

@@ -13,7 +13,11 @@ enum Endpoints {
   addLike,
   unLike,
   getAllLiked,
-  getAllLikes
+  getAllLikes,
+  addCart,
+  getAllCart,
+  updateDecrimentCart,
+  deleteSingleCart,
 }
 
 extension EndpontData on Endpoints {
@@ -46,6 +50,14 @@ extension EndpontData on Endpoints {
         path = "like/likes";
       case Endpoints.getAllLikes:
         path = "like/likes-full-details";
+      case Endpoints.addCart:
+        path = "cart/add";
+      case Endpoints.getAllCart:
+        path = "cart";
+      case Endpoints.updateDecrimentCart:
+        path = "cart/decriment";
+      case Endpoints.deleteSingleCart:
+        path = "cart/remove";
     }
     return path;
   }
@@ -79,6 +91,14 @@ extension EndpontData on Endpoints {
         type = ReqType.GET;
       case Endpoints.getAllLikes:
         type = ReqType.GET;
+      case Endpoints.addCart:
+        type = ReqType.POST;
+      case Endpoints.getAllCart:
+        type = ReqType.GET;
+      case Endpoints.updateDecrimentCart:
+        type = ReqType.POST;
+      case Endpoints.deleteSingleCart:
+        type = ReqType.DELETE;
     }
     return type;
   }
@@ -111,6 +131,14 @@ extension EndpontData on Endpoints {
       case Endpoints.getAllLiked:
         hasToken = true;
       case Endpoints.getAllLikes:
+        hasToken = true;
+      case Endpoints.addCart:
+        hasToken = true;
+      case Endpoints.getAllCart:
+        hasToken = true;
+      case Endpoints.updateDecrimentCart:
+        hasToken = true;
+      case Endpoints.deleteSingleCart:
         hasToken = true;
     }
     return hasToken;

@@ -48,6 +48,12 @@ class HomeController extends GetxController {
 
   @override
   void onClose() {
+    _fetchAllLiked.close();
+    _getProducts.close();
+    _fetchAllLiked.close();
+    _getProducts.close();
+    favoriteController.getAllLiked();
+    print("close");
     super.onClose();
   }
 

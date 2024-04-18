@@ -24,21 +24,31 @@ class FavoriteController extends GetxController {
       _fetchAllLikedByID.stream;
 
   @override
-  void onInit() {
-    getAllLiked().then((_) {
-      // Call getAllLiked after getProducts completes successfully
+  void onInit() async {
+    await getAllLiked().then((_) async {
+      await Future.delayed(
+          Duration(seconds: 5)); // Introducing a 2-second delay
       getAllLikedbyId();
+      print("all liked");
     });
     super.onInit();
   }
 
   @override
-  void onReady() {
+  void onReady() async {
+    await getAllLiked().then((_) async {
+      await Future.delayed(
+          Duration(seconds: 2)); // Introducing a 2-second delay
+      getAllLikedbyId();
+      print("all liked");
+    });
     super.onReady();
   }
 
   @override
   void onClose() {
+    _fetchAllLiked.close();
+    _fetchAllLikedByID.close();
     super.onClose();
   }
 
@@ -61,29 +71,6 @@ class FavoriteController extends GetxController {
     final response = await repo.getAllLikesData();
 
     _fetchAllLiked.sink.add(response!);
-  }
-
-  onlikeProduct(String productId, context) async {
-    final LikeRepo repo = LikeRepo();
-    final response = await repo.like(productId);
-    getAllLiked().then((_) {
-      // Call getAllLiked after getProducts completes successfully
-      getAllLikedbyId();
-    });
-    if (response?.error != null) {
-      error(context, response!.error, Colors.red, "Error", Icons.error,
-          Colors.red);
-    }
-  }
-
-  onunlikeProduct(String productId, context) async {
-    final LikeRepo repo = LikeRepo();
-    final response = await repo.unlike(productId);
-
-    if (response?.error != null) {
-      error(context, response!.error, Colors.red, "Error", Icons.error,
-          Colors.red);
-    }
   }
 
   Future getAllLikedbyId() async {

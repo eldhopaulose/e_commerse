@@ -28,7 +28,7 @@ class ProductRepo {
         return GetProductRes(error: "Something went wrong");
       }
     } catch (e) {
-      return throw Exception(GetProductRes(error: e.toString()));
+      return GetProductRes(error: e.toString());
     }
   }
 
@@ -54,7 +54,7 @@ class ProductRepo {
         return GetSingleProductByIdRes(error: "Something went wrong");
       }
     } catch (e) {
-      return throw Exception(GetSingleProductByIdRes(error: e.toString()));
+      return GetSingleProductByIdRes(error: e.toString());
     }
   }
 }
