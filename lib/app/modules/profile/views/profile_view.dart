@@ -1,5 +1,6 @@
 import 'package:e_commerse/app/modules/favorite/views/favorite_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,6 +11,9 @@ class ProfileView extends GetView<ProfileController> {
   const ProfileView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    Get.put(ProfileController(), permanent: true);
+    print("controller");
+    print(controller.name);
     return Scaffold(
       //backgroundColor: Colors.black,
       appBar: AppBar(
@@ -33,22 +37,35 @@ class ProfileView extends GetView<ProfileController> {
             Row(
               children: [
                 SizedBox(width: 20),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "ELdho",
-                      style: GoogleFonts.lindenHill(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.green),
-                    ),
-                    Text(
-                      "eldho@gmail.com",
-                      style: GoogleFonts.lindenHill(
-                          fontSize: 16, color: Colors.black87),
-                    ),
-                  ],
+                FutureBuilder(
+                  future: controller.getUserData(context),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      print("error");
+                    } else if (snapshot.hasData) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            snapshot.data!.user!.name.toString(),
+                            style: GoogleFonts.lindenHill(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.green),
+                          ),
+                          Text(
+                            snapshot.data!.user!.email.toString(),
+                            style: GoogleFonts.lindenHill(
+                                fontSize: 16, color: Colors.black87),
+                          ),
+                        ],
+                      );
+                    } else {
+                      return Container();
+                    }
+
+                    return Container();
+                  },
                 )
               ],
             ),
@@ -86,47 +103,47 @@ class ProfileView extends GetView<ProfileController> {
                         child: ListBody(
                           children: <Widget>[
                             TextFormField(
-                              controller: null,
+                              controller: controller.nameController,
                               decoration: InputDecoration(
                                 labelText: 'Name',
                               ),
                             ),
                             TextFormField(
-                              controller: null,
+                              controller: controller.addressController,
                               decoration: InputDecoration(
                                 labelText: 'Address',
                               ),
                             ),
                             TextFormField(
-                              controller: null,
+                              controller: controller.mobileNumberController,
                               decoration: InputDecoration(
                                 labelText: 'Mobile Number',
                               ),
                             ),
                             TextFormField(
-                              controller: null,
+                              controller: controller.pincodeController,
                               decoration: InputDecoration(
                                 labelText: 'Pin Code',
                               ),
                             ),
                             TextFormField(
-                              controller: null,
+                              controller: controller.districtController,
                               decoration: InputDecoration(
                                 labelText: 'District',
                               ),
                             ),
                             TextFormField(
-                              controller: null,
+                              controller: controller.stateController,
                               decoration: InputDecoration(
                                 labelText: 'State',
                               ),
                             ),
-                            TextFormField(
-                              controller: null,
-                              decoration: InputDecoration(
-                                labelText: 'Country',
-                              ),
-                            ),
+                            // TextFormField(
+                            //   controller: null,
+                            //   decoration: InputDecoration(
+                            //     labelText: 'Country',
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),
@@ -137,6 +154,8 @@ class ProfileView extends GetView<ProfileController> {
                             style: GoogleFonts.grenze(color: Colors.green),
                           ),
                           onPressed: () {
+                            controller.getAdress();
+                            controller.onReady();
                             Navigator.of(context).pop();
                           },
                         ),
@@ -145,6 +164,7 @@ class ProfileView extends GetView<ProfileController> {
                               style: GoogleFonts.grenze(
                                   fontSize: 18, color: Colors.green)),
                           onPressed: () {
+                            controller.onCreateAddress(context);
                             Navigator.of(context).pop();
                           },
                         ),
@@ -152,6 +172,7 @@ class ProfileView extends GetView<ProfileController> {
                           child: Text('Update',
                               style: GoogleFonts.grenze(color: Colors.green)),
                           onPressed: () {
+                            controller.onUpdateAddress(context);
                             Navigator.of(context).pop();
                           },
                         ),
@@ -175,50 +196,48 @@ class ProfileView extends GetView<ProfileController> {
                       fontSize: 18, fontWeight: FontWeight.bold)),
               onTap: () {}, // Implement navigation
             ),
-            // StreamBuilder(
-            //   stream: controller.fetchAdress,
-            //   builder: (context, snapshot) {
-            //     if (snapshot.hasData && snapshot.data!.address!.isNotEmpty) {
-            //       controller.name.value = snapshot.data!.address!.first.name!;
-            //       controller.mobile.value =
-            //           snapshot.data!.address!.first.mobileNumber!;
-            //       controller.address.value =
-            //           snapshot.data!.address!.first.address!;
-            //       controller.district.value =
-            //           snapshot.data!.address!.first.district!;
-            //       controller.state.value = snapshot.data!.address!.first.state!;
-            //       controller.pincode.value =
-            //           snapshot.data!.address!.first.pinCode!;
-            //       controller.country.value =
-            //           snapshot.data!.address!.first.country!;
-            //       controller.adrressId.value =
-            //           snapshot.data!.address!.first.sId!;
-            //       controller.onReady();
+            StreamBuilder(
+              stream: controller.fetchAdress,
+              builder: (context, snapshot) {
+                if (snapshot.hasData && snapshot.data!.address!.isNotEmpty) {
+                  controller.name.value = snapshot.data!.address!.first.name!;
+                  controller.mobileNumber.value =
+                      snapshot.data!.address!.first.mobileNumber!;
+                  controller.address.value =
+                      snapshot.data!.address!.first.address!;
+                  controller.district.value =
+                      snapshot.data!.address!.first.district!;
+                  controller.state.value = snapshot.data!.address!.first.state!;
+                  controller.pincode.value =
+                      snapshot.data!.address!.first.pincode!;
+                  controller.id.value = snapshot.data!.address!.first.sId!;
+                  controller.onReady();
 
-            //       return Visibility(
-            //         child: Obx(() => Column(
-            //               children: [
-            //                 Text('Name: ${controller.name.value}'),
-            //                 Text('Mobile: ${controller.mobile.value}'),
-            //                 Text('Address: ${controller.address.value}'),
-            //                 Text('District: ${controller.district.value}'),
-            //                 Text('State: ${controller.state.value}'),
-            //                 Text('Pincode: ${controller.pincode.value}'),
-            //                 Text('Country: ${controller.country.value}'),
-            //               ],
-            //             )),
-            //         visible: false,
-            //       );
-            //     } else if (snapshot.hasError) {
-            //       return Text('Error: ${snapshot.error}');
-            //     } else if (snapshot.connectionState ==
-            //         ConnectionState.waiting) {
-            //       return CircularProgressIndicator();
-            //     } else {
-            //       return Text('No Adress added');
-            //     }
-            //   },
-            // )
+                  return Visibility(
+                    child: Obx(() => Column(
+                          children: [
+                            Text('Name: ${controller.name.value ?? ''}'),
+                            Text(
+                                'Mobile: ${controller.mobileNumber.value ?? ''}'),
+                            Text('Address: ${controller.address.value ?? ''}'),
+                            Text(
+                                'District: ${controller.district.value ?? ''}'),
+                            Text('State: ${controller.state.value ?? ''}'),
+                            Text('Pincode: ${controller.pincode.value ?? ''}'),
+                          ],
+                        )),
+                    visible: true,
+                  );
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else if (snapshot.connectionState ==
+                    ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else {
+                  return Text('No Adress added');
+                }
+              },
+            )
           ],
         ),
       ),

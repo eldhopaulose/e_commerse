@@ -88,7 +88,7 @@ class ProductCard extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: MediaQuery.of(context).size.width > 600 ? 250 : 220,
+              top: MediaQuery.of(context).size.width > 600 ? 250 : 210,
               bottom: 0,
               right: 0,
               left: 0,

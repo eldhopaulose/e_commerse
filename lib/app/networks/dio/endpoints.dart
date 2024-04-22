@@ -18,6 +18,10 @@ enum Endpoints {
   getAllCart,
   updateDecrimentCart,
   deleteSingleCart,
+  createAddress,
+  getAddress,
+  updateAddress,
+  deleteAddress,
 }
 
 extension EndpontData on Endpoints {
@@ -58,6 +62,14 @@ extension EndpontData on Endpoints {
         path = "cart/decriment";
       case Endpoints.deleteSingleCart:
         path = "cart/remove";
+      case Endpoints.createAddress:
+        path = "adress";
+      case Endpoints.getAddress:
+        path = "adress";
+      case Endpoints.updateAddress:
+        path = "adress";
+      case Endpoints.deleteAddress:
+        path = "adress";
     }
     return path;
   }
@@ -99,6 +111,14 @@ extension EndpontData on Endpoints {
         type = ReqType.POST;
       case Endpoints.deleteSingleCart:
         type = ReqType.DELETE;
+      case Endpoints.createAddress:
+        type = ReqType.POST;
+      case Endpoints.getAddress:
+        type = ReqType.GET;
+      case Endpoints.updateAddress:
+        type = ReqType.PUT;
+      case Endpoints.deleteAddress:
+        type = ReqType.DELETE;
     }
     return type;
   }
@@ -139,6 +159,14 @@ extension EndpontData on Endpoints {
       case Endpoints.updateDecrimentCart:
         hasToken = true;
       case Endpoints.deleteSingleCart:
+        hasToken = true;
+      case Endpoints.createAddress:
+        hasToken = true;
+      case Endpoints.getAddress:
+        hasToken = true;
+      case Endpoints.updateAddress:
+        hasToken = true;
+      case Endpoints.deleteAddress:
         hasToken = true;
     }
     return hasToken;
