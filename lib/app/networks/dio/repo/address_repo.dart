@@ -92,6 +92,7 @@ class AddressRepo {
       final response = await dioClient.mainReqRes(
         endPoints: Endpoints.updateAddress,
         queryParameters: addressId,
+        data: addressReq.toJson(),
       );
 
       if (response.data != null) {
